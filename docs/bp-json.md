@@ -3,6 +3,12 @@ bp.json
 
 ```json
 {
-  "type": "bower"
+  "type": "literal",
+  "start": [],
+  "stop": [],
+  "restart": [],
+  "install": [],
+  "uninstall": [],
+  "reinstall": []
 }
 ```
