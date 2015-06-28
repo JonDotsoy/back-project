@@ -7,12 +7,25 @@ Un entorno de desarrollo basado en BASH. de múltiples lenguajes y múltiples si
 Comandos
 --------
 
+### Initialization
+
 Inicializa el tentornode del proyecto.
 
 ```
 bp init
 ```
 
+Crea un documento (`bp.json`) dentro del directorio del proyecto que almacena las configuraciones para iniciar para y reiniciar el proyecto, al igual que almacena las configuraciones para instalar y desinstallar el software desde su codigo fuente.
 
+
+### Information
+
+Retorna la información del proyecto.
+
+```
+bp info
+```
+
+Obtiene un informe completo con toda la información relacionada con el proyecto, desde los script a ejecutar para iniciar el proyecto, como la información almacenada dentro del equipo a nivel local.
 
 

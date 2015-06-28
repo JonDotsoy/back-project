@@ -10,7 +10,8 @@ var versionEvent = function () {
 command
   .description(package.description)
   .option('-v, --version', 'Muestra versión.', versionEvent)
-  .command('init [environment]', 'Inicia un entorno.')
+  .command('init <enviroment>', 'Inicia un entorno.', 'literal')
+  .command('install', 'Instala el entorno del projecto.')
 
 command.parse(process.argv)
 

@@ -1,8 +1,7 @@
 {
   "name": "bp",
-  "version": "1.0.0",
+  "version": "0.0.1-beta",
   "description": "Un entorno de desarrollo basado en BASH. de múltiples lenguajes y múltiples sistemas. Capas de montar un proyecto tan solo creando una serie de comandos generales.",
-  "main": "cli.js",
   "bin": {
     "bp": "./bp.js"
   },
@@ -18,6 +17,8 @@
   },
   "homepage": "https://github.com/jonDotsoy/back-project",
   "dependencies": {
-    "commander": "^2.8.1"
+    "commander": "^2.8.1",
+    "homedir": "^0.6.0",
+    "jfs": "^0.2.6"
   }
 }
