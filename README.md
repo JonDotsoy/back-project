@@ -11,7 +11,7 @@ Comandos
 
 Inicializa el tentornode del proyecto.
 
-```
+```bash
 bp init
 ```
 
@@ -22,7 +22,7 @@ Crea un documento (`bp.json`) dentro del directorio del proyecto que almacena la
 
 Retorna la información del proyecto.
 
-```
+```bash
 bp info
 ```
 
