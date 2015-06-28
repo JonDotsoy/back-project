@@ -3,9 +3,8 @@
  */
 
 var path = require('path')
-var bpproject = {}
 
-module.exports = bpproject = {
+module.exports = {
   init: function () {
     // Scan directorio git
   },
