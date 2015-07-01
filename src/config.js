@@ -4,34 +4,41 @@ var homedir = require('homedir')
 var path    = require('path')
 var Store   = require('jfs')
 
-var dbUser = new Store(path.join(homedir(),'.bp_profile.json'), {
-  pretty: true
-})
+var config = function (setting) {
+  var setting = setting || {}
 
-var dbLocal = new Store(path.join(process.cwd(), 'bp.json'), {
-  pretty: true
-})
+  setting.global = setting.global || undefined
+  setting.local = setting.local || undefined
 
+  this.dbUser = new Store(setting.global, {
+    pretty: true,
+  })
 
-module.exports = {
-  local: {
-    get: function (name, cb) {
-      dbUser.get(name, cb)
-    },
-    put: function (name, value, cb) {
-      dbUser.save(name, value, cb)
-    },
-    all: function (cb) {
-      dbUser.all(cb)
-    },
+  this.dbProject = new Store(setting.local, {
+    pretty: true,
+  })
+}
+
+config.prototype.local = {
+  put: function (id, values, cb) {
+    this.dbUser.save(id, values, cb)
   },
   get: function (name, cb) {
-    dbLocal.get(name, cb)
-  },
-  put: function (name, value, cb) {
-    dbLocal.save(name, value, cb)
+    this.dbUser.get(name, cb)
   },
   all: function (cb) {
-    dbLocal.all(cb)
-  }
+    this.dbUser.all(cb)
+  },
 }
+
+config.prototype.put = function (id, values, cb) {
+  this.dbProject.save(id, values, cb)
+}
+config.prototype.get = function (name, cb) {
+  this.dbProject.get(name, cb)
+}
+config.prototype.all = function (cb) {
+  this.dbProject.all(cb)
+}
+
+module.exports = config

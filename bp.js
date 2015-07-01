@@ -11,7 +11,8 @@ command
   .description(package.description)
   .option('-v, --version', 'Muestra versión.', versionEvent)
   .command('init <enviroment>', 'Inicia un entorno.', 'literal')
-  .command('install', 'Instala el entorno del projecto.')
+  .command('install', 'Instala el entorno del proyecto.')
+  .command('test', 'Ejecutar las pruebas del aplicativo.')
 
 command.parse(process.argv)
 

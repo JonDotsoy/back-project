@@ -1,7 +1,7 @@
 var path          = require('path')
 var command       = require('commander')
 var bpproject     = require(path.join(__dirname, 'src', 'project.js'))
-var db            = require(path.join(__dirname, 'src', 'config.js'))
+var config        = require(path.join(__dirname, 'src', 'config.js'))
 var child_process = require('child_process')
 
 command
