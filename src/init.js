@@ -1,8 +1,10 @@
 'use strict'
 
+
 var fs = require('fs')
 var path = require('path')
 var async = require('async')
+
 
 /**
  * bp.init([options, ]callback)
@@ -24,27 +26,42 @@ var async = require('async')
 var init = function(options, cb) {
   var self = this
 
-  if (!cb) {
-    cb = options
-    options = undefined
+  if (!cb && typeof options == 'function') {
+    cb = options || function () {}
+    options = {}
   }
 
-  options = options || {}
-  options.type = options.type || 'literal'
-  options.maintainer = options.maintainer || ""
-  options.install = options.install || []
-  options.uninstall = options.uninstall || []
-  options.start = options.start || []
-  options.stop = options.stop || []
+  if (!cb) {
+    cb = function () {}
+  }
+
+  var _options = options || {}
+  _options.type = options.type || 'literal'
+  _options.maintainer = options.maintainer || ""
+  _options.install = options.install || []
+  _options.uninstall = options.uninstall || []
+  _options.start = options.start || []
+  _options.stop = options.stop || []
 
   var checkValueOnConfig = function (nameValue, defaultValue, cb) {
+    var callback = function (err, data) {
+      self._eventEmitter.emit('init:value', {
+        type: nameValue,
+        data: data,
+      })
+      self._eventEmitter.emit('init:value:'+nameValue, {
+        data: data,
+      })
+      cb.apply(null, arguments)
+    }
+
     self.options.get(nameValue, function (err, data) {
       if (err) {
-        self.options.put(nameValue, options[nameValue] || defaultValue, function (err, data) {
-          cb(err, data)
+        self.options.put(nameValue, (_options[nameValue] || defaultValue), function (err, data) {
+          callback(err, data)
         })
       } else {
-        cb(undefined, data)
+        callback(undefined, data)
       }
     })
   }
@@ -70,8 +87,10 @@ var init = function(options, cb) {
     },
   },
   function(err, results) {
+    self._eventEmitter.emit('init', err)
     cb(err)
   })
 }
+
 
 module.exports = init

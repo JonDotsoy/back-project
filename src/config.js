@@ -1,8 +1,10 @@
 'use strict'
 
+
 var homedir = require('homedir')
 var path    = require('path')
 var Store   = require('jfs')
+
 
 var db = function (path) {
   this._db = new Store(path,{

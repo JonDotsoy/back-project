@@ -1,5 +1,6 @@
 'use strict'
 
+
 var path = require('path')
 
 var init = require(path.join(__dirname, 'init.js'))
