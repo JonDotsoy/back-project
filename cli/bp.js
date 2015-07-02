@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 var path = require('path')
 var command = require('commander')
 var backproject = require(path.join(__dirname, '..', 'src', 'bp.js'))
