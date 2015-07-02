@@ -1,10 +1,7 @@
-'use strict'
-
-
-var path          = require('path')
-var command       = require('commander')
-var backproject   = require(path.join(__dirname, '..', 'src', 'bp.js'))
-var pkg           = require(path.join(__dirname, '..', 'package.json'))
+var path = require('path')
+var command = require('commander')
+var backproject = require(path.join(__dirname, '..', 'src', 'bp.js'))
+var pkg = require(path.join(__dirname, '..', 'package.json'))
 var child_process = require('child_process')
 var bp = null
 var options = {}

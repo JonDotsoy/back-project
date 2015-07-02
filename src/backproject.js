@@ -1,6 +1,3 @@
-'use strict'
-
-
 var homedir = require('homedir')
 var async = require('async')
 var fs = require('fs')

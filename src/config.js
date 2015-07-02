@@ -1,6 +1,3 @@
-'use strict'
-
-
 var homedir = require('homedir')
 var path    = require('path')
 var Store   = require('jfs')
