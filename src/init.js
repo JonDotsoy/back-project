@@ -1,3 +1,5 @@
+'use strict'
+
 var fs = require('fs')
 var path = require('path')
 var async = require('async')
@@ -33,8 +35,9 @@ var init = function(options, cb) {
   }
 
   var _options = options || {}
+  _options.name = options.name || ''
   _options.type = options.type || 'literal'
-  _options.maintainer = options.maintainer || ""
+  _options.maintainer = options.maintainer || ''
   _options.install = options.install || []
   _options.uninstall = options.uninstall || []
   _options.start = options.start || []
@@ -64,22 +67,25 @@ var init = function(options, cb) {
   }
 
   async.series({
-    checkValueType: function(cb) {
-      checkValueOnConfig('type', "", cb)
+    ckeckValueName: function (cb) {
+      checkValueOnConfig('name', '', cb)
     },
-    checkValueMaintainer: function(cb) {
-      checkValueOnConfig('maintainer', "", cb)
+    checkValueType: function (cb) {
+      checkValueOnConfig('type', '', cb)
     },
-    checkValueInstall: function(cb) {
+    checkValueMaintainer: function (cb) {
+      checkValueOnConfig('maintainer', '', cb)
+    },
+    checkValueInstall: function (cb) {
       checkValueOnConfig('install', [], cb)
     },
-    checkValueUninstall: function(cb) {
+    checkValueUninstall: function (cb) {
       checkValueOnConfig('uninstall', [], cb)
     },
-    checkValueStart: function(cb) {
+    checkValueStart: function (cb) {
       checkValueOnConfig('start', [], cb)
     },
-    checkValueStop: function(cb) {
+    checkValueStop: function (cb) {
       checkValueOnConfig('stop', [], cb)
     },
   },

@@ -30,13 +30,30 @@ command
   })
 
 command
-  .command('init [name]')
+  .command('init [name] [type]')
   .description('a description')
-  .action(function (cmd, env) {
+  .option('-t, --type <type>', 'Define el tipo de proyecto.', function (type) {
+    options.type = type
+  })
+  .action(function (name, type, env) {
     createBP()
-    bp.init(function (err) {
+
+    if (name) {
+      options.name = name
+    }
+    if (type) {
+      options.type = type
+    }
+
+    bp.init(options, function (err) {
       console.log("Fue creado el archivo \""+bp.bpname+"\"");
     })
+  })
+
+command
+  .command('help')
+  .action(function (env) {
+    command.outputHelp()
   })
 
 command.parse(process.argv)
