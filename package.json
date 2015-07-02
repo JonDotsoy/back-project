@@ -2,9 +2,9 @@
   "name": "bp",
   "version": "0.0.3-beta",
   "description": "Un entorno de desarrollo basado en BASH. de múltiples lenguajes y múltiples sistemas. Capas de montar un proyecto tan solo creando una serie de comandos generales.",
-  "main": "src/bp.js",
+  "main": "./src/bp.js",
   "bin": {
-    "bp": "./bp.js"
+    "bp": "./cli/bp.js"
   },
   "scripts": {
     "test": "nodeunit"
