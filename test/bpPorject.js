@@ -21,26 +21,40 @@ exports.bpTest = {
     cb()
   },
   // Run a INIT test of BP
-  init: function (test) {
+  init: function (assert) {
     var self = this
 
     self.bp.init(function(err) {
-      test.ok(!err ? true: false, "Exists a error to run init.")
-      test.done()
+      assert.ifError(err);
+      assert.done()
     })
   },
-  'if was created file \'bp.json\'?': function (test) {
+  'was created  \'bp.json\' file?': function (assert) {
     var self = this
+
     fs.exists(self.bp.bpname, function (isCreated) {
-      test.ok(isCreated)
-      test.done()
+      assert.ok(isCreated)
+      assert.done()
     })
   },
-  'Read values of \'bp.json\'': function (test) {
+  'Read values of \'bp.json\'': function (assert) {
     var self = this
-    test.doesNotThrow(function () {
+
+    assert.doesNotThrow(function () {
       require(self.bp.bpname)
     })
-    test.done()
-  }
+    assert.done()
+  },
+  'Default values on \'bp.json\'': function (assert) {
+    var self = this
+    self.bp.info(function (err, data) {
+      console.log(data);
+
+      assert.ifError(err)
+
+      assert.ok(data.bp)
+
+      assert.done()
+    })
+  },
 }
