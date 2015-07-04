@@ -6,6 +6,7 @@ var command = require('commander')
 var backproject = require(path.join(__dirname, '..', 'src', 'bp.js'))
 var pkg = require(path.join(__dirname, '..', 'package.json'))
 var child_process = require('child_process')
+var fs = require('fs')
 var bp = null
 var options = {}
 var createBP = function () {
@@ -40,9 +41,16 @@ command
 
     if (name) {
       options.name = name
+    } else {
+      options.name = path.basename(process.cwd())
     }
+
     if (type) {
       options.type = type
+    } else {
+      if (fs.existsSync(path.join(process.cwd(),'package.json'))) {
+        options.type = 'node'
+      }
     }
 
     bp.init(options, function (err) {

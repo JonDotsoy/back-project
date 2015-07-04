@@ -3,10 +3,11 @@
 var fs = require('fs')
 var path = require('path')
 var async = require('async')
+var md5 = require('MD5')
 
 
 /**
- * bp.init([options, ]callback)
+ * bp.init([[options,]callback])
  *
  * Options:
  *  type (String): Default 'literal'
@@ -35,7 +36,7 @@ var init = function(options, cb) {
   }
 
   var _options = options || {}
-  _options.name = options.name || ''
+  _options.name = options.name || '' || md5(self.bpname)
   _options.type = options.type || 'literal'
   _options.maintainer = options.maintainer || ''
   _options.install = options.install || []
@@ -56,8 +57,9 @@ var init = function(options, cb) {
     }
 
     self.options.get(nameValue, function (err, data) {
-      if (err) {
-        self.options.put(nameValue, (_options[nameValue] || defaultValue), function (err, data) {
+      var newSetValue = (_options[nameValue] || defaultValue)
+      if (newSetValue) {
+        self.options.put(nameValue, newSetValue, function (err, data) {
           callback(err, data)
         })
       } else {
@@ -77,16 +79,29 @@ var init = function(options, cb) {
       checkValueOnConfig('maintainer', '', cb)
     },
     checkValueInstall: function (cb) {
-      checkValueOnConfig('install', [], cb)
+      checkValueOnConfig('install', null, cb)
     },
     checkValueUninstall: function (cb) {
-      checkValueOnConfig('uninstall', [], cb)
+      checkValueOnConfig('uninstall', null, cb)
     },
     checkValueStart: function (cb) {
-      checkValueOnConfig('start', [], cb)
+      checkValueOnConfig('start', null, cb)
     },
     checkValueStop: function (cb) {
-      checkValueOnConfig('stop', [], cb)
+      checkValueOnConfig('stop', null, cb)
+    },
+    addProjectGlobalUser: function (cb) {
+      // get Global Values
+      self.options.local.get('projects', function (err, data) {
+        data = data || {}
+
+        data[_options.name] = self.dir
+
+        // Set Data
+        self.options.local.put('projects', data, function (err, data) {
+
+        })
+      })
     },
   },
   function(err, results) {
