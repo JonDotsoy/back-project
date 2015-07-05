@@ -2,7 +2,7 @@
   "name": "back-project",
   "type": "node",
   "install": [
-    "echo ok && echo branch master"
+    "echo ok"
   ],
   "uninstall": [],
   "start": [],
