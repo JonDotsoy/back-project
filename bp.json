@@ -1,7 +1,9 @@
 {
   "name": "back-project",
   "type": "node",
-  "install": [],
+  "install": [
+    "echo ok"
+  ],
   "uninstall": [],
   "start": [],
   "stop": []
