@@ -60,7 +60,7 @@ command
 
 command
   .command('info')
-  .option('-a, --all',null,true)
+  .option('-a, --all')
   .option('-l, --data-local')
   .action(function (env) {
     createBP()
