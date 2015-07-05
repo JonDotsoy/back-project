@@ -17,7 +17,7 @@ command
   .version(pkg.version)
   .description('aa')
   .option('-p, --path <dir>', 'Define el path del proyecto.', function (path) {
-    console.log("se path");
+    console.log("se path")
     options.dir = path
   })
   .option('-n, --bp-name <name>', 'Define el nombre del archivo de configuración. Por defecto es "bp.json"', function (name){
@@ -54,7 +54,28 @@ command
     }
 
     bp.init(options, function (err) {
-      console.log("Fue creado el archivo \""+bp.bpname+"\"");
+      console.log("Fue creado el archivo \""+bp.bpname+"\"")
+    })
+  })
+
+command
+  .command('info')
+  .option('-a, --all')
+  .action(function (env) {
+    createBP()
+    bp.options.val(function(err, data){
+      console.log('==',bp.bpname,'==')
+      console.log()
+      console.log(JSON.stringify(data, null, 2))
+      console.log()
+      if (env.all) {
+        bp.options.local.val(function(err, data){
+          console.log('==', bp.bp_profile, '==')
+          console.log()
+          console.log(JSON.stringify(data, null, 2))
+          console.log()
+        })
+      }
     })
   })
 
