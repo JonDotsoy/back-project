@@ -16,7 +16,7 @@ var createBP = function () {
 command
   .version(pkg.version)
   .description('aa')
-  .option('-p, --path <dir>', 'Define el path del proyecto.', function (path) {
+  .option('-p, --path <dir>', 'Define el directorio del proyecto.', function (path) {
     console.log("se path")
     options.dir = path
   })
@@ -60,23 +60,39 @@ command
 
 command
   .command('info')
-  .option('-a, --all')
+  .option('-a, --all',null,true)
+  .option('-l, --data-local')
   .action(function (env) {
     createBP()
-    bp.options.val(function(err, data){
-      console.log('==',bp.bpname,'==')
-      console.log()
-      console.log(JSON.stringify(data, null, 2))
-      console.log()
-      if (env.all) {
-        bp.options.local.val(function(err, data){
-          console.log('==', bp.bp_profile, '==')
-          console.log()
-          console.log(JSON.stringify(data, null, 2))
-          console.log()
-        })
+
+    var showDataProject = function () {
+      bp.options.val(function(err, data){
+        console.log('==',bp.bpname,'==')
+        console.log()
+        console.log(JSON.stringify(data, null, 2))
+        console.log()
+      })
+    }
+    var showDataLocal = function () {
+      bp.options.local.val(function(err, data){
+        console.log('==', bp.bp_profile, '==')
+        console.log()
+        console.log(JSON.stringify(data, null, 2))
+        console.log()
+      })
+    }
+
+    if (env.all) {
+      showDataProject()
+      showDataLocal()
+    } else {
+      if (env.dataLocal) {
+        showDataLocal()
+      } else {
+        showDataProject()
       }
-    })
+    }
+
   })
 
 command
