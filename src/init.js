@@ -44,21 +44,25 @@ var init = function(options, cb) {
   _options.start = options.start || []
   _options.stop = options.stop || []
 
-  var checkValueOnConfig = function (nameValue, defaultValue, cb) {
+  var verifiTheSettingsValues = function (nameValue, defaultValue, cb) {
+
     var callback = function (err, data) {
-      self._eventEmitter.emit('init:value', {
+      var dataToEmitEvent = {
         type: nameValue,
         data: data,
-      })
-      self._eventEmitter.emit('init:value:'+nameValue, {
-        data: data,
-      })
+      }
+
+      self._eventEmitter.emit('init:value', dataToEmitEvent)
+      self._eventEmitter.emit('init:value:'+nameValue, dataToEmitEvent)
+
       cb.apply(null, arguments)
     }
 
+    // Get Setting
     self.options.get(nameValue, function (err, data) {
       var newSetValue = (_options[nameValue] || defaultValue)
       if (newSetValue) {
+        // If exists new value, set value.
         self.options.put(nameValue, newSetValue, function (err, data) {
           callback(err, data)
         })
@@ -69,28 +73,28 @@ var init = function(options, cb) {
   }
 
   async.series({
-    ckeckValueName: function (cb) {
-      checkValueOnConfig('name', '', cb)
+    'local value name': function (cb) {
+      verifiTheSettingsValues('name', '', cb)
     },
-    checkValueType: function (cb) {
-      checkValueOnConfig('type', '', cb)
+    'local value type': function (cb) {
+      verifiTheSettingsValues('type', '', cb)
     },
-    checkValueMaintainer: function (cb) {
-      checkValueOnConfig('maintainer', '', cb)
+    'local value maintainer': function (cb) {
+      verifiTheSettingsValues('maintainer', null, cb)
     },
-    checkValueInstall: function (cb) {
-      checkValueOnConfig('install', null, cb)
+    'local value install': function (cb) {
+      verifiTheSettingsValues('install', null, cb)
     },
-    checkValueUninstall: function (cb) {
-      checkValueOnConfig('uninstall', null, cb)
+    'local value uninstall': function (cb) {
+      verifiTheSettingsValues('uninstall', null, cb)
     },
-    checkValueStart: function (cb) {
-      checkValueOnConfig('start', null, cb)
+    'local value start': function (cb) {
+      verifiTheSettingsValues('start', null, cb)
     },
-    checkValueStop: function (cb) {
-      checkValueOnConfig('stop', null, cb)
+    'local value stop': function (cb) {
+      verifiTheSettingsValues('stop', null, cb)
     },
-    addProjectGlobalUser: function (cb) {
+    'global value to save or update the project location': function (cb) {
       // get Global Values
       self.options.local.get('projects', function (err, data) {
         data = data || {}
@@ -108,6 +112,7 @@ var init = function(options, cb) {
     self._eventEmitter.emit('init', err)
     cb(err)
   })
+
 }
 
 

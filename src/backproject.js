@@ -12,6 +12,7 @@ var config = require(path.join(__dirname, 'config.js'))
 var bp = function (options) {
   options = (options || {})
 
+  // Get Path's
   this.dir = (options.dir) ? path.resolve(options.dir) : process.cwd()
   this.homedir = (options.homedir) ? path.resolve(options.homedir) : homedir()
 
@@ -19,6 +20,7 @@ var bp = function (options) {
   this.bp_profile = path.join(this.homedir, (options.bp_profile || ".bp_profile.json"))
   this.bpname = path.join(this.dir, (options.bpname || 'bp.json'))
 
+  // Gestor de Eventos
   this._eventEmitter = new events.EventEmitter()
 
   var self = this
