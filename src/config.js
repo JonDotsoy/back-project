@@ -1,8 +1,11 @@
 'use strict'
 
+
+
 var homedir = require('homedir')
 var path    = require('path')
 var Store   = require('jfs')
+
 
 
 var db = function (path) {
@@ -58,6 +61,7 @@ config.prototype.all = function() {
 config.prototype.val = function() {
   this._localdb.val.apply(this._localdb, arguments)
 }
+
 
 
 module.exports = config
