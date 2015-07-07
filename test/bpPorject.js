@@ -24,35 +24,25 @@ exports.bpTest = {
   // Run a INIT test of BP
   init: function (assert) {
     var self = this
-    var listAsyncToEndEvent = []
-
-    async.parallel({
-      '1': function (cb) {
-        assert.ok(cb)
-        listAsyncToEndEvent.push(cb)
+    async.series([
+      function (cb) {
+        // Test Event Init
+        self.bp.on('init', function (err) {
+          assert.ifError(err)
+          cb()
+        })
       },
-      '2': function (cb) {
-        assert.ok(cb)
-        listAsyncToEndEvent.push(cb)
+      function (cb) {
+        self.bp.init({
+          maintainer: "aaab",
+        },function (err) {
+          assert.ifError(err)
+          listAsyncToEndEvent[1]()
+        })
       },
-    },
-    function(err, results) {
+    ], function (err, results) {
       assert.done()
     })
-
-    // Test Event Init
-    self.bp.on('init', function (err) {
-      assert.ifError(err)
-      listAsyncToEndEvent[0]()
-    })
-
-    self.bp.init({
-      maintainer: "aaab",
-    },function (err) {
-      assert.ifError(err)
-      listAsyncToEndEvent[1]()
-    })
-
   },
   'Was created \'bp.json\' file': function (assert) {
     var self = this

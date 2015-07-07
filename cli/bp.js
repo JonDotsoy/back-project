@@ -96,6 +96,31 @@ command
   })
 
 command
+  .command('list [search]')
+  .description('Muestra todos los proyectos asociados a back-project.')
+  .action(function (search, env) {
+    createBP()
+
+    bp.list(function (err, projects) {
+
+      for (var nameProject in projects) {
+        if (projects.hasOwnProperty(nameProject)) {
+          var projectPath = projects[nameProject]
+          if (!search) {
+            search = ''
+          }
+          if (nameProject.indexOf(search) >= 0) {
+            console.log(' * ' + nameProject + ':')
+            console.log('\t', projectPath)
+          }
+        }
+      }
+
+    })
+
+  })
+
+command
   .command('help')
   .action(function (env) {
     command.outputHelp()
