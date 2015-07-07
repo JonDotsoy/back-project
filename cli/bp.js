@@ -7,11 +7,17 @@ var backproject = require(path.join(__dirname, '..', 'src', 'bp.js'))
 var pkg = require(path.join(__dirname, '..', 'package.json'))
 var child_process = require('child_process')
 var fs = require('fs')
+var async = require('async')
 var bp = null
 var options = {}
-var createBP = function () {
+var createBP = function (cwd) {
+  if (cwd) {
+    options.homedir = cwd
+    process.chdir(cwd)
+  }
   bp = new backproject(options)
 }
+var originalCwd = process.cwd()
 
 command
   .version(pkg.version)
@@ -24,6 +30,7 @@ command
     options.bpname = name
   })
   .option('--profile-path <profile>', 'Define el directorio del usuario.', function (dirProfile) {
+    process.chdir(dirProfile)
     options.homedir = dirProfile
   })
   .option('--profile-name <nameFile>', 'Define el nombre para el archivo de configuración del usuario.', function (nameFile) {
@@ -121,13 +128,24 @@ command
   })
 
 command
-  .command('start')
+  .command('start [project]')
   .description('Inicia la ejecución de la aplicación.')
   .option('-d, --daemon', 'Inicia la aplicación como un demonio.')
-  .action(function (env) {
+  .action(function (projectSearch, env) {
     createBP()
 
-    bp.start(function () {})
+    if (projectSearch) {
+      bp.list(function (err, projects) {
+        async.forEachOf(projects, function (projectCwd, indexProject, cb) {
+          if (indexProject == projectSearch) {
+            createBP(projectCwd)
+            bp.start(function () {})
+          }
+        })
+      })
+    } else {
+      bp.start(function () {})
+    }
 
   })
 

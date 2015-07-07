@@ -35,10 +35,6 @@ var start = function (options, callback) {
 
         util.log('['+key+'/'+(scripts.length-1)+']','-',script)
 
-        if (key == (scripts.length-1)) {
-          script = 'forever start -c ' + script
-        }
-
         var child = cp.exec(script, options)
 
         child.stdout.on('data', function (data) {

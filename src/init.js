@@ -40,9 +40,9 @@ var init = function(options, cb) {
   _options.type = options.type || 'literal'
   _options.maintainer = options.maintainer || ''
   _options.install = options.install || []
-  _options.uninstall = options.uninstall || []
+  _options.uninstall = options.uninstall || null
   _options.start = options.start || []
-  _options.stop = options.stop || []
+  _options.stop = options.stop || null
 
   var verifiTheSettingsValues = function (nameValue, defaultValue, cb) {
 

@@ -4,10 +4,8 @@
   "install": [
     "echo ok"
   ],
-  "uninstall": [],
   "start": [
     "echo start is ok",
     "echo start 2"
-  ],
-  "stop": []
+  ]
 }
