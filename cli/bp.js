@@ -121,6 +121,17 @@ command
   })
 
 command
+  .command('start')
+  .description('Inicia la ejecución de la aplicación.')
+  .option('-d, --daemon', 'Inicia la aplicación como un demonio.')
+  .action(function (env) {
+    createBP()
+
+    bp.start(function () {})
+
+  })
+
+command
   .command('help')
   .action(function (env) {
     command.outputHelp()
