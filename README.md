@@ -18,6 +18,15 @@ bp init
 Crea un documento (`bp.json`) dentro del directorio del proyecto que almacena las configuraciones para iniciar para y reiniciar el proyecto, al igual que almacena las configuraciones para instalar y desinstallar el software desde su codigo fuente.
 
 
+### Install
+
+Instala los componentes por defecto para poder iniciar correctamente el proyecto.
+
+```bash
+bp install
+```
+
+
 ### Information
 
 Retorna la información del proyecto.
@@ -27,5 +36,3 @@ bp info
 ```
 
 Obtiene un informe completo con toda la información relacionada con el proyecto, desde los script a ejecutar para iniciar el proyecto, como la información almacenada dentro del equipo a nivel local.
-
-
