@@ -169,7 +169,8 @@ command
   })
 
 command
-  .command('edit [project]')
+  .command('editor [project]')
+  .alias('e')
   .action(function (projectSearch, env) {
     createBP()
 
