@@ -104,6 +104,7 @@ command
 
 command
   .command('list [search]')
+  .alias('l')
   .description('Muestra todos los proyectos asociados a back-project.')
   .option('-j, --json', 'Muestra el resultado en formato JSON.')
   .option('--only-path', 'Muestra solo las rutas de los proyectos.')
@@ -148,6 +149,7 @@ command
 
 command
   .command('start [project]')
+  .alias('s')
   .description('Inicia la ejecución de la aplicación.')
   .option('-d, --daemon', 'Inicia la aplicación como un demonio.')
   .action(function (projectSearch, env) {
