@@ -44,5 +44,9 @@ Obtiene un informe completo con toda la información relacionada con el proyecto
 Abre el editor con el directorio del proyecto.
 
 ```bash
-bp edit
+bp e
+```
+
+```bash
+bp editor
 ```
