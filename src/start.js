@@ -1,7 +1,9 @@
 'use strict'
 
 
-var cp = require('child_process')
+// var cp = require('child_process')
+var path = require('path')
+var cp = require(path.join(__dirname, 'cp.js'))
 var async = require('async')
 var util = require('util')
 
@@ -11,8 +13,9 @@ var util = require('util')
 * start([[options,]callback])
 *
 * options:
-*   cwd: process.cwd()
-*   env: process.env
+*   cwd:    process.cwd()
+*   env:    process.env
+*   daemon: false
 */
 var start = function (options, callback) {
   var self = this
@@ -26,32 +29,14 @@ var start = function (options, callback) {
   callback = callback || function () {}
 
   options.env = options.env || process.env
-  options.cwd = options.cwd || process.cwd()
+  options.cwd = options.cwd || self.dir || process.cwd()
   options.daemon = options.daemon || false
 
   self.options.val('start', function (err, scripts) {
     async.forEachOfSeries(scripts, function (script, key, cb) {
-      if (typeof script == 'string') {
-
-        util.log('['+key+'/'+(scripts.length-1)+']','-',script)
-
-        var child = cp.exec(script, options)
-
-        child.stdout.on('data', function (data) {
-          process.stdout.write(data.toString())
-        })
-
-        child.stderr.on('data', function (data) {
-          process.stdout.write(data.toString())
-        })
-
-        child.on('close', function (err, ret) {
-          console.log()
-          cb(err, ret)
-        })
-      }
+      util.log('[' + key + '/' + (scripts.length - 1) + ']' + ':' , script)
+      var childScript = cp(script, options, cb)
     },callback)
-
   })
   callback()
 }

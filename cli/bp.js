@@ -105,11 +105,15 @@ command
 command
   .command('list [search]')
   .description('Muestra todos los proyectos asociados a back-project.')
+  .option('-j, --json', 'Muestra el resultado en formato JSON.')
+  .option('--only-path', 'Muestra solo las rutas de los proyectos.')
+  .option('--only-name', 'Muestra solo el nombre de los proyectos.')
   .action(function (search, env) {
     createBP()
 
-    bp.list(function (err, projects) {
+    var dataReturn = {}
 
+    bp.list(function (err, projects) {
       for (var nameProject in projects) {
         if (projects.hasOwnProperty(nameProject)) {
           var projectPath = projects[nameProject]
@@ -117,8 +121,23 @@ command
             search = ''
           }
           if (nameProject.indexOf(search) >= 0) {
-            console.log(' * ' + nameProject + ':')
-            console.log('\t', projectPath)
+            dataReturn[nameProject] = projectPath
+          }
+        }
+      }
+
+      if (env.json) {
+        console.log(JSON.stringify(dataReturn, null, 2))
+      } else {
+        for (var dR in dataReturn) {
+          if (dataReturn.hasOwnProperty(dR)) {
+            var eD = dataReturn[dR]
+
+            var showED = env.onlyPath ? false : true
+            var showDR = env.onlyName && !env.onlyPath ? false : true
+
+            showED && console.log(' * ' + dR + (!showDR ? '' : ':'))
+            showDR && console.log((!showED ? '' : '\t') + eD)
           }
         }
       }
@@ -139,12 +158,32 @@ command
         async.forEachOf(projects, function (projectCwd, indexProject, cb) {
           if (indexProject == projectSearch) {
             createBP(projectCwd)
-            bp.start(function () {})
+            bp.start({daemon: env.daemon}, function () {})
           }
         })
       })
     } else {
-      bp.start(function () {})
+      bp.start({daemon: env.daemon}, function () {})
+    }
+
+  })
+
+command
+  .command('edit [project]')
+  .action(function (projectSearch, env) {
+    createBP()
+
+    if (projectSearch) {
+      bp.list(function (err, projects) {
+        async.forEachOf(projects, function (projectCwd, indexProject, cb) {
+          if (indexProject == projectSearch) {
+            createBP(projectCwd)
+            bp.editor()
+          }
+        })
+      })
+    } else {
+      bp.editor()
     }
 
   })
